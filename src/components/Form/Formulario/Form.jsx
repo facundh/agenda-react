@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { AgendaConsumir } from "../../../context/AgendasProvider";
+import { checkAllFields } from "../../../helper/helper";
 import Button from "../../Ui/Button";
 import Input from "../../Ui/Input";
 import Select from "../../Ui/Select";
 import Textarea from "../../Ui/Textarea";
-
+import { v4 as uuidv4 } from "uuid";
 const Form = () => {
+  const { agregarCita } = AgendaConsumir();
+  const formRef = useRef();
   const [form, setForm] = useState({
+
     propietario: "",
     mascota: "",
     date: "",
@@ -15,6 +20,8 @@ const Form = () => {
     size: "",
     pagado: false,
   });
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,10 +54,51 @@ const Form = () => {
     size,
     pagado,
   } = form;
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    
+    const todoValido = checkAllFields([
+      propietario,
+      mascota,
+      date,
+      time,
+      sintomas,
+      animal,
+      size,
+      pagado,
+    ]);
+
+    if (todoValido) {
+      let cita = {...form, id:uuidv4()}
+      agregarCita(cita);
+      setForm({
+        id:'',
+        propietario: "",
+        mascota: "",
+        date: "",
+        time: "",
+        sintomas: "",
+        animal: "",
+        size: "",
+        pagado: false,
+      });
+    } else {
+      console.log("Faltan Datos");
+    }
+  };
+
   return (
     <>
-      <form className="row g-3 needs-validation m-auto w-50 container">
-      <h1 className="text-center display-4 text-uppercase text-white my-0"> formulario </h1>
+      <form
+        className="row g-3 needs-validation m-auto w-50 container"
+        onSubmit={handleClick}
+        ref={formRef}
+      >
+        <h1 className="text-center display-4 text-uppercase text-white my-0">
+          {" "}
+          formulario{" "}
+        </h1>
         <div className="row w-75 mx-auto ">
           <Input
             className="col-md-12  my-2"

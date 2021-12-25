@@ -17,6 +17,8 @@ const Input = ({
       <div className={className}>
         <label
           for="validationCustom01"
+
+          // Refrescar esto y el input classname porque lo tuvimos que hacer
           className={labelClassName ? labelClassName : "form-label"}
         >
           {label}

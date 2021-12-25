@@ -1,10 +1,8 @@
-import React from 'react'
-import Citas from '../components/Agendas/Citas'
+import React from "react";
+import Citas from "../components/Agendas/Citas";
 
 const Agenda = () => {
-    return (
-        <Citas />
-    )
-}
+  return <Citas />;
+};
 
-export default Agenda
+export default Agenda;
